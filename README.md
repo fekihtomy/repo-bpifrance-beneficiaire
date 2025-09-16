@@ -5,12 +5,20 @@ MVP pour Bpifrance → connaître les bénéficiaires effectifs selon la défini
 
 ---
 
-## Piste d'amélioration
+## Piste d'amélioration (Ce que j'aurais aimé améliorer dans le code)
 
 - Ajout de tests JUnit type création ou récupération d'entreprise ou de personnes, l'ajout de bénéficiaires, etc...
 - Ajout de base de données SQL pour la persistance
 - Ajout de sécurité type authentification par exemple
 - Ajout d'un historique
+
+---
+
+## Mon retour ou ce que je nʼai pas réussi à faire
+
+- Manqué de temps pour des tests
+- 2H c'est court, pour de vrai, je suis déjà a environ 4H
+- Quelques difficultés avec les API REST, mon dernier developpement du type remonte à 2019 à la BNP pour un systeme d'automatisation de notices, developpement réalisé en Inde, j'étais plus ou moins le tech lead / MOE , rédaction spécification technique, participation aux reunions, review du code, tests puis livraison
 
 ---
 
