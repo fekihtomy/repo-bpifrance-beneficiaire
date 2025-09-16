@@ -24,6 +24,14 @@ MVP pour Bpifrance → connaître les bénéficiaires effectifs selon la défini
 
 ---
 
+## Contrats / Codes de retour principaux
+
+- **200 OK** : liste des bénéficiaires (avec pourcentage) renvoyée  
+- **404 Not Found** : l’entreprise n’existe pas  
+- **204 No Content** : entreprise existe mais aucun bénéficiaire ne correspond aux critères  
+
+---
+
 ## Exemples
 
 ### Créer une entreprise
