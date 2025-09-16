@@ -40,4 +40,35 @@ public class GestionBeneficiaireService {
         e.getBeneficiaires().add(b);
         return true;
     }
+
+    // Récupérer une entreprise par id
+    public Optional<Entreprise> getEntreprise(String entrepriseId) {
+        return Optional.ofNullable(entreprises.get(entrepriseId));
+    }
+
+    // Récupérer tous les bénéficiaires effectifs ( > 25%) d'une entreprise
+    public List<Beneficiaire> getBeneficiaires(String entrepriseId,
+                                               Optional<TypeBeneficiaire> filtreType,
+                                               boolean seulementEffectifs) {
+        Entreprise e = entreprises.get(entrepriseId);
+        if (e == null) {
+            throw new NoSuchElementException("Entreprise non trouvée");
+        }
+        List<Beneficiaire> list = e.getBeneficiaires();
+        if (list.isEmpty()) {
+            return Collections.emptyList();
+        }
+        // Appliquer filtres
+        List<Beneficiaire> resultat = new ArrayList<>();
+        for (Beneficiaire b : list) {
+            if (seulementEffectifs && b.getPourcentage() <= 25.0) {
+                continue;
+            }
+            if (filtreType.isPresent() && b.getType() != filtreType.get()) {
+                continue;
+            }
+            resultat.add(b);
+        }
+        return résultat;
+    }
 }
