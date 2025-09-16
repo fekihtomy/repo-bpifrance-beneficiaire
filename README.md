@@ -5,6 +5,15 @@ MVP pour Bpifrance → connaître les bénéficiaires effectifs selon la défini
 
 ---
 
+## Piste d'amélioration
+
+- Ajout de tests JUnit type création ou récupération d'entreprise ou de personnes, l'ajout de bénéficiaires, etc...
+- Ajout de base de données SQL pour la persistance
+- Ajout de sécurité type authentification par exemple
+- Ajout d'un historique
+
+---
+
 ## Stack technique
 
 - Java 21
@@ -36,7 +45,56 @@ MVP pour Bpifrance → connaître les bénéficiaires effectifs selon la défini
 
 ### Créer une entreprise
 
-```bash
 curl -X POST http://localhost:8080/api/entreprises \
      -H "Content-Type: application/json" \
-     -d '{ "nom": "Entreprise A" }'
+     -d '{ "nom": "Entreprise Test" }'
+
+retour attendu (201 Created):
+
+{
+  "id": "uuid-entreprise",
+  "nom": "Entreprise Test",
+  "beneficiaires": []
+}
+
+
+### Créer une personne physique
+
+curl -X POST http://localhost:8080/api/personnes \
+     -H "Content-Type: application/json" \
+     -d '{ "nom": "Fekih", "prenom": "Tomy" }'
+
+retour attendu (201 Created):
+
+{
+  "id": "uuid-personne",
+  "nom": "Fekih",
+  "prenom": "Tomy"
+}
+
+
+### Créer une personne physique
+
+curl -X POST http://localhost:8080/api/beneficiaires \
+     -H "Content-Type: application/json" \
+     -d '{
+           "entrepriseId": "uuid-entreprise",
+           "beneficiaireId": "uuid-personne",
+           "type": "PERSONNE_PHYSIQUE",
+           "pourcentage": 27.0
+         }'
+
+retour attendu : 201 Created
+
+
+### Récupérer tous les bénéficiaires pour une entreprise
+
+GET http://localhost:8080/api/entreprises/{id}/beneficiaires
+
+### Récupérer seulement les personnes physiques
+
+GET http://localhost:8080/api/entreprises/{id}/beneficiaires?type=PERSONNE_PHYSIQUE
+
+### Récupérer seulement les bénéficiaires effectifs
+
+GET http://localhost:8080/api/entreprises/{id}/beneficiaires?effectifs=true
