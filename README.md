@@ -1,7 +1,27 @@
-# repo-bpifrance-beneficiaire
+# 📦 Bpifrance - Gestion des Bénéficiaires Effectifs
 
-Service REST simple pour gérer les bénéficiaires effectifs d’entreprises.
-MVP pour Bpifrance → connaître les bénéficiaires effectifs selon la définition : personne physique détenant directement ou indirectement **plus de 25 %** du capital.
+Ce projet est une API REST Java 21 / Spring Boot 3 permettant de gérer des **entreprises bénéficiaires effectives**.  
+Il s'agit d'une version améliorée post-MVP intégrant une base de données PostgreSQL, des logs, de la validation et des tests unitaires.
+
+---
+
+## 🚀 Fonctionnalités
+
+- 🔄 CRUD complet sur les entreprises
+- 🗄️ Persistance avec PostgreSQL
+- ✅ Validation avec Jakarta Validation
+- 🧪 Tests unitaires avec JUnit + Mockito
+- 📋 Gestion d’erreurs globalisée (`@ControllerAdvice`)
+- 📄 Logs via SLF4J
+- 🧬 DTO pour séparation modèle / transport
+
+---
+
+## ⚙️ Configuration
+
+### 🎯 PostgreSQL
+
+Assure-toi que ta base est accessible sur `localhost:5432`
 
 ---
 
