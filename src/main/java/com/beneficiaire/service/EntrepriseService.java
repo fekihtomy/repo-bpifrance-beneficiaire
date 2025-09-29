@@ -1,4 +1,4 @@
-package com.bpifrance.beneficiaire.service;
+package com.beneficiaire.service;
 
 import com.beneficiaire.dto.CreateEntrepriseDTO;
 import com.beneficiaire.dto.EntrepriseDTO;
