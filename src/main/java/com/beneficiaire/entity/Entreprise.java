@@ -1,4 +1,4 @@
-package com.bpifrance.beneficiaire.entity;
+package com.beneficiaire.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
