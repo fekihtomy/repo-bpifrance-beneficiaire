@@ -26,24 +26,6 @@ Il s'agit d'une version améliorée post-MVP intégrant une base de données Pos
 - Lombok
 - JUnit 5 & Mockito
 - Maven
-  
----
-
-## 🛠️ Configuration Base de Données
-
-Assurez-vous d'avoir un serveur PostgreSQL disponible et créez une base de données nommée `bpifrance`.
-
-Fichier `application.properties` :
-
-properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/bpifrance
-spring.datasource.username=postgres
-spring.datasource.password=your_password
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-
-spring.sql.init.mode=always
-spring.sql.init.data-locations=classpath:data.sql
 
 ---
 
@@ -381,45 +363,27 @@ curl http://localhost:8080/api/beneficiaires
 
 ---
 
-## Commande installation & lancement API
+## 🔍 À faire avant de lancer les tests ou l’application
 
-- git clone https://github.com/fekihtomy/repo-bpifrance-beneficiaire.git
-- cd repo-bpifrance-beneficiaire
-- mvn clean package -DskipTests
-- java -jar target/repo-bpifrance-beneficiaire-0.0.1-SNAPSHOT.jar
+Voici les étapes essentielles à effectuer pour que l'application fonctionne correctement et que les tests soient exécutables :
 
-## Commande de tests
+- **Configurer la base de données PostgreSQL**  
+  Créer une base nommée `bpifrance` avec un utilisateur PostgreSQL disposant des droits nécessaires.
 
-- cd C:\Users\fekih\repo-bpifrance-beneficiaire
+- **Vérifier le fichier `application.properties`**  
+  S'assurer que l'URL de connexion, les identifiants et les propriétés JPA sont correctement renseignés.
 
-### Ajout entreprises
-- curl -X POST http://localhost:8080/api/entreprises -H "Content-Type: application/json" -d "{\"nom\":\"Entreprise Test 1\"}"
-- retour {"id":"f70763a2-a570-45b6-a4b3-b1f6b4a8f39f","nom":"Entreprise Test 1","beneficiaires":[]}
-- curl -X POST http://localhost:8080/api/entreprises -H "Content-Type: application/json" -d "{\"nom\":\"Entreprise Test 2\"}"
-- retour {"id":"48817658-ec0d-42a8-99cd-d3104fc4704d","nom":"Entreprise Test 2","beneficiaires":[]}
+- **Prévoir des données initiales (optionnel)**  
+  Ajouter un fichier `data.sql` pour injecter automatiquement des entreprises, personnes et bénéficiaires au démarrage.
 
-### Ajout personne physique
-- curl -X POST http://localhost:8080/api/personnes -H "Content-Type: application/json" -d "{\"nom\":\"Fekih\", \"prenom\":\"Tomy\"}"
-- retour {"id":"48d0c7c7-8bdd-48aa-afd7-e3e2e75ef200","nom":"Fekih","prenom":"Tomy"}
-- curl -X POST http://localhost:8080/api/personnes -H "Content-Type: application/json" -d "{\"nom\":\"Fekih\", \"prenom\":\"Joud\"}"
-- retour {"id":"914ab397-640f-4705-aa1b-649fbe018627","nom":"Fekih","prenom":"Joud"}
-- curl -X POST http://localhost:8080/api/personnes -H "Content-Type: application/json" -d "{\"nom\":\"Fekih\", \"prenom\":\"Zara\"}"
-- retour {"id":"6d6decf5-d4bd-47e1-87cc-ea1f4d3286fb","nom":"Fekih","prenom":"Zara"}
+- **Activer une base de test (H2)**  
+  Ajouter un profil `test` avec une configuration dédiée (`application-test.properties`) pour exécuter les tests en mémoire.
 
-### Ajout beneficiaire
-- curl -X POST http://localhost:8080/api/beneficiaires -H "Content-Type: application/json" -d "{\"entrepriseId\":\"f70763a2-a570-45b6-a4b3-b1f6b4a8f39f\", \"beneficiaireId\":\"48d0c7c7-8bdd-48aa-afd7-e3e2e75ef200\", \"type\":\"PERSONNE_PHYSIQUE\", \"pourcentage\":50.0}"
-- retour Bénéficiaire ajouté
-- curl -X POST http://localhost:8080/api/beneficiaires -H "Content-Type: application/json" -d "{\"entrepriseId\":\"48817658-ec0d-42a8-99cd-d3104fc4704d\", \"beneficiaireId\":\"914ab397-640f-4705-aa1b-649fbe018627\", \"type\":\"PERSONNE_PHYSIQUE\", \"pourcentage\":31.0}"
-- retour Bénéficiaire ajouté
-- curl -X POST http://localhost:8080/api/beneficiaires -H "Content-Type: application/json" -d "{\"entrepriseId\":\"f70763a2-a570-45b6-a4b3-b1f6b4a8f39f\", \"beneficiaireId\":\"6d6decf5-d4bd-47e1-87cc-ea1f4d3286fb\", \"type\":\"PERSONNE_PHYSIQUE\", \"pourcentage\":2.0}"
-- retour Bénéficiaire ajouté
-  
-### Récupération bénéficiaire
-- curl -X GET http://localhost:8080/api/entreprises/{48817658-ec0d-42a8-99cd-d3104fc4704d}/beneficiaires
-- retour [{"beneficiaireId":"914ab397-640f-4705-aa1b-649fbe018627","type":"PERSONNE_PHYSIQUE","pourcentage":31.0}]
-- curl -X GET http://localhost:8080/api/entreprises/{f70763a2-a570-45b6-a4b3-b1f6b4a8f39f}/beneficiaires?type=PERSONNE_PHYSIQUE
-- retour [{"beneficiaireId":"48d0c7c7-8bdd-48aa-afd7-e3e2e75ef200","type":"PERSONNE_PHYSIQUE","pourcentage":50.0},{"beneficiaireId":"6d6decf5-d4bd-47e1-87cc-ea1f4d3286fb","type":"PERSONNE_PHYSIQUE","pourcentage":2.0}]
+- **Ajouter la dépendance H2 dans le `pom.xml`**  
+  Permet d'exécuter des tests unitaires sans connexion réelle à PostgreSQL.
 
-### Récupération bénéficiaire effectif
-- curl -X GET http://localhost:8080/api/entreprises/{f70763a2-a570-45b6-a4b3-b1f6b4a8f39f}/beneficiaires?effectifs=true
-- retour [{"beneficiaireId":"48d0c7c7-8bdd-48aa-afd7-e3e2e75ef200","type":"PERSONNE_PHYSIQUE","pourcentage":50.0}]
+- **Annoter les classes de test**  
+  Utiliser `@ActiveProfiles("test")` pour activer le profil de test durant l’exécution.
+
+- **Exécuter les tests unitaires**  
+  Lancer la commande `mvn test` pour valider le bon fonctionnement des services et du mapping.
