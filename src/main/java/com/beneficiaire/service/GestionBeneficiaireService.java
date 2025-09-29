@@ -69,6 +69,6 @@ public class GestionBeneficiaireService {
             }
             resultat.add(b);
         }
-        return résultat;
+        return resultat;
     }
 }
