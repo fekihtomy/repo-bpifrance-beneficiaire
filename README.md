@@ -73,25 +73,29 @@ Voici quelques idées pour aller plus loin et enrichir le projet :
 
 ## 🛠️ Fonctionnalités disponibles (API REST)
 
-L’API expose les opérations suivantes sur la ressource **Entreprise** via les endpoints REST :
+L’API expose les opérations suivantes via des endpoints REST :
 
-| Méthode | Endpoint                 | Description                                       | Entrée (DTO)            | Sortie (DTO)            | Codes HTTP attendus           |
-|---------|--------------------------|-------------------------------------------------|-------------------------|-------------------------|------------------------------|
-| POST    | `/api/entreprises`       | Créer une nouvelle entreprise                    | `CreateEntrepriseDTO`   | `EntrepriseDTO`         | 201 Created, 400 Bad Request  |
-| GET     | `/api/entreprises`       | Récupérer la liste complète des entreprises     | -                       | List<`EntrepriseDTO`>   | 200 OK                       |
-| GET     | `/api/entreprises/{id}`  | Récupérer une entreprise par son ID              | -                       | `EntrepriseDTO`         | 200 OK, 404 Not Found        |
-| DELETE  | `/api/entreprises/{id}`  | Supprimer une entreprise par son ID               | -                       | -                       | 204 No Content, 404 Not Found|
+| Ressource     | Méthode | Endpoint                       | Description                                              | Entrée (DTO)               | Sortie (DTO)               | Codes HTTP attendus                |
+|---------------|---------|--------------------------------|----------------------------------------------------------|----------------------------|----------------------------|------------------------------------|
+| Entreprise    | POST    | `/api/entreprises`             | Créer une nouvelle entreprise                            | `CreateEntrepriseDTO`      | `EntrepriseDTO`            | 201 Created, 400 Bad Request       |
+|               | GET     | `/api/entreprises`             | Récupérer toutes les entreprises                         | -                          | List<`EntrepriseDTO`>      | 200 OK                            |
+|               | GET     | `/api/entreprises/{id}`        | Récupérer une entreprise par son ID                      | -                          | `EntrepriseDTO`            | 200 OK, 404 Not Found              |
+|               | DELETE  | `/api/entreprises/{id}`        | Supprimer une entreprise par son ID                      | -                          | -                          | 204 No Content, 404 Not Found      |
+| Personne      | POST    | `/api/personnes`               | Créer une personne physique                              | `CreatePersonneDTO`        | `PersonneDTO`              | 201 Created, 400 Bad Request       |
+|               | GET     | `/api/personnes`               | Récupérer toutes les personnes physiques                 | -                          | List<`PersonneDTO`>        | 200 OK                            |
+| Bénéficiaire  | POST    | `/api/beneficiaires`           | Créer un nouveau bénéficiaire (personne ou entreprise)   | `CreateBeneficiaireDTO`    | `BeneficiaireDTO`          | 201 Created, 400 Bad Request       |
+|               | GET     | `/api/beneficiaires`           | Récupérer tous les bénéficiaires                         | -                          | List<`BeneficiaireDTO`>    | 200 OK                            |
 
 ---
 
 ### Détails importants :
 
-- Les données reçues en création (`POST`) sont validées avec Jakarta Validation (`@Valid`).
-- Les erreurs de validation ou d’intégrité sont retournées avec un message clair au format JSON.
-- L’API utilise des DTOs pour séparer la couche présentation des entités JPA.
-- La suppression est définitive (pas de soft delete).
-- Les logs suivent les actions importantes (création, suppression).
-
+- ✅ Les données de création sont validées via Jakarta Validation (`@Valid`) côté contrôleur.
+- 🔒 Les erreurs sont retournées au format JSON avec un message d’erreur explicite.
+- 🧩 L’API repose sur une architecture DTO pour dissocier la couche présentation des entités JPA.
+- 🧹 Les suppressions sont définitives (pas de soft delete).
+- 🪵 Des logs sont générés pour les opérations critiques : création, suppression, erreurs.
+- 🔀 Les bénéficiaires peuvent être soit des **personnes physiques** soit d’autres **entreprises**, mais pas les deux à la fois.
 
 ---
 
