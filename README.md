@@ -70,15 +70,111 @@ L’API expose les opérations suivantes sur la ressource **Entreprise** via les
 - La suppression est définitive (pas de soft delete).
 - Les logs suivent les actions importantes (création, suppression).
 
----
-
-## Contrats / Codes de retour principaux
-
-- **200 OK** : liste des bénéficiaires (avec pourcentage) renvoyée  
-- **404 Not Found** : l’entreprise n’existe pas  
-- **204 No Content** : entreprise existe mais aucun bénéficiaire ne correspond aux critères  
 
 ---
+
+## 📚 Exemples d’utilisation de l’API
+
+### 1. Entreprise (POST `/api/entreprises`)
+
+- Créer une entreprise
+
+curl -X POST http://localhost:8080/api/entreprises \
+  -H "Content-Type: application/json" \
+  -d '{
+        "nom": "Tech Innov",
+        "siren": "123456789",
+        "adresse": "10 rue des Innovation, Paris"
+      }'
+
+- Réponse (201 Created) :
+{
+  "id": 1,
+  "nom": "Tech Innov",
+  "siren": "123456789",
+  "adresse": "10 rue des Innovation, Paris"
+}
+
+- Requête invalide (champ manquant) :
+
+curl -X POST http://localhost:8080/api/entreprises \
+  -H "Content-Type: application/json" \
+  -d '{
+        "nom": "",
+        "siren": "123456789"
+      }'
+
+- Réponse (400 Bad Request) :
+{
+  "nom": "Le nom de l'entreprise est obligatoire"
+}
+
+- Requête invalide (SIREN déjà existant) :
+
+curl -X POST http://localhost:8080/api/entreprises \
+  -H "Content-Type: application/json" \
+  -d '{
+        "nom": "Duplicata",
+        "siren": "123456789",
+        "adresse": "Adresse quelconque"
+      }'
+
+- Réponse (400 Bad Request) :
+{
+  "error": "Une entreprise avec ce SIREN existe déjà."
+}
+
+- Récupérer toutes les entreprises (GET /api/entreprises)
+
+curl http://localhost:8080/api/entreprises
+
+- Réponse (200 OK) :
+[
+  {
+    "id": 1,
+    "nom": "InnovCorp",
+    "siren": "123456789",
+    "adresse": "15 avenue des Lumières, Paris"
+  },
+  {
+    "id": 2,
+    "nom": "AlphaTech",
+    "siren": "987654321",
+    "adresse": "20 rue du Faubourg, Lyon"
+  }
+]
+
+- Récupérer une entreprise par ID (GET /api/entreprises/{id})
+
+curl http://localhost:8080/api/entreprises/1
+
+Réponse (200 OK) :
+{
+  "id": 1,
+  "nom": "InnovCorp",
+  "siren": "123456789",
+  "adresse": "15 avenue des Lumières, Paris"
+}
+
+- Réponse si ID inexistant (404 Not Found) :
+{
+  "error": "Entreprise introuvable avec l'ID 999"
+}
+
+- Supprimer une entreprise (DELETE /api/entreprises/{id})
+
+curl -X DELETE http://localhost:8080/api/entreprises/1
+
+- Réponse (204 No Content) :
+Pas de contenu
+
+- Réponse si ID inexistant (404 Not Found) :
+{
+  "error": "Impossible de supprimer : entreprise introuvable avec l'ID 999"
+}
+
+---
+
 ## Commande installation & lancement API
 
 - git clone https://github.com/fekihtomy/repo-bpifrance-beneficiaire.git
@@ -121,63 +217,3 @@ L’API expose les opérations suivantes sur la ressource **Entreprise** via les
 ### Récupération bénéficiaire effectif
 - curl -X GET http://localhost:8080/api/entreprises/{f70763a2-a570-45b6-a4b3-b1f6b4a8f39f}/beneficiaires?effectifs=true
 - retour [{"beneficiaireId":"48d0c7c7-8bdd-48aa-afd7-e3e2e75ef200","type":"PERSONNE_PHYSIQUE","pourcentage":50.0}]
-
----
-
-## Exemples
-
-### Créer une entreprise
-
-curl -X POST http://localhost:8080/api/entreprises \
-     -H "Content-Type: application/json" \
-     -d '{ "nom": "Entreprise Test" }'
-
-retour attendu (201 Created):
-
-{
-  "id": "uuid-entreprise",
-  "nom": "Entreprise Test",
-  "beneficiaires": []
-}
-
-
-### Créer une personne physique
-
-curl -X POST http://localhost:8080/api/personnes \
-     -H "Content-Type: application/json" \
-     -d '{ "nom": "Fekih", "prenom": "Tomy" }'
-
-retour attendu (201 Created):
-
-{
-  "id": "uuid-personne",
-  "nom": "Fekih",
-  "prenom": "Tomy"
-}
-
-
-### Créer un beneficiaire
-
-curl -X POST http://localhost:8080/api/beneficiaires \
-     -H "Content-Type: application/json" \
-     -d '{
-           "entrepriseId": "uuid-entreprise",
-           "beneficiaireId": "uuid-personne",
-           "type": "PERSONNE_PHYSIQUE",
-           "pourcentage": 27.0
-         }'
-
-retour attendu : 201 Created
-
-
-### Récupérer tous les bénéficiaires pour une entreprise
-
-GET http://localhost:8080/api/entreprises/{id}/beneficiaires
-
-### Récupérer seulement les personnes physiques
-
-GET http://localhost:8080/api/entreprises/{id}/beneficiaires?type=PERSONNE_PHYSIQUE
-
-### Récupérer seulement les bénéficiaires effectifs
-
-GET http://localhost:8080/api/entreprises/{id}/beneficiaires?effectifs=true
