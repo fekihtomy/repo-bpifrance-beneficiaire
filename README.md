@@ -48,6 +48,12 @@ MVP pour Bpifrance → connaître les bénéficiaires effectifs selon la défini
 - **204 No Content** : entreprise existe mais aucun bénéficiaire ne correspond aux critères  
 
 ---
+## Commande de test
+
+git clone https://github.com/fekihtomy/repo-bpifrance-beneficiaire.git
+cd repo-bpifrance-beneficiaire
+mvn clean package -DskipTests
+java -jar target/repo-bpifrance-beneficiaire-0.0.1-SNAPSHOT.jar
 
 ## Exemples
 
