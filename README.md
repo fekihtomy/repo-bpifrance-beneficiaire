@@ -49,14 +49,26 @@ Voici quelques idées pour aller plus loin et enrichir le projet :
 
 ---
 
-## Fonctionnalités disponibles (API)
+## 🛠️ Fonctionnalités disponibles (API REST)
 
-| Méthode | Endpoint | Description |
-|---------|----------|-------------|
-| **POST** | `/api/entreprises` | Créer une entreprise. Corps JSON attendu : `{ "nom": "Nom de l’entreprise" }` |
-| **POST** | `/api/personnes` | Créer une personne physique. Corps JSON : `{ "nom": "...", "prenom": "..." }` |
-| **POST** | `/api/beneficiaires` | Ajouter un bénéficiaire pour une entreprise. Corps JSON :<br>`{ "entrepriseId": "...", "beneficiaireId": "...", "type": "PERSONNE_PHYSIQUE" ou "ENTREPRISE", "pourcentage": nombre }` |
-| **GET** | `/api/entreprises/{id}/beneficiaires` | Récupérer les bénéficiaires pour une entreprise donnée. Paramètres optionnels : `type` (= "PERSONNE_PHYSIQUE" ou "ENTREPRISE"), `effectifs` (= true/false, si true → seulement les bénéficiaires effectifs (>25%)) |
+L’API expose les opérations suivantes sur la ressource **Entreprise** via les endpoints REST :
+
+| Méthode | Endpoint                 | Description                                       | Entrée (DTO)            | Sortie (DTO)            | Codes HTTP attendus           |
+|---------|--------------------------|-------------------------------------------------|-------------------------|-------------------------|------------------------------|
+| POST    | `/api/entreprises`       | Créer une nouvelle entreprise                    | `CreateEntrepriseDTO`   | `EntrepriseDTO`         | 201 Created, 400 Bad Request  |
+| GET     | `/api/entreprises`       | Récupérer la liste complète des entreprises     | -                       | List<`EntrepriseDTO`>   | 200 OK                       |
+| GET     | `/api/entreprises/{id}`  | Récupérer une entreprise par son ID              | -                       | `EntrepriseDTO`         | 200 OK, 404 Not Found        |
+| DELETE  | `/api/entreprises/{id}`  | Supprimer une entreprise par son ID               | -                       | -                       | 204 No Content, 404 Not Found|
+
+---
+
+### Détails importants :
+
+- Les données reçues en création (`POST`) sont validées avec Jakarta Validation (`@Valid`).
+- Les erreurs de validation ou d’intégrité sont retournées avec un message clair au format JSON.
+- L’API utilise des DTOs pour séparer la couche présentation des entités JPA.
+- La suppression est définitive (pas de soft delete).
+- Les logs suivent les actions importantes (création, suppression).
 
 ---
 
