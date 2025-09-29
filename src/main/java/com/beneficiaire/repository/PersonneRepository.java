@@ -1,6 +1,6 @@
 package com.beneficiaire.repository;
 
-import com.bpifrance.beneficiaire.entity.PersonnePhysique;
+import com.beneficiaire.entity.PersonnePhysique;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
