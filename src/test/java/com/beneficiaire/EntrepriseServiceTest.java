@@ -1,8 +1,8 @@
-package com.bpifrance.beneficiaire.service;
+package com.beneficiaire.service;
 
-import com.bpifrance.beneficiaire.dto.CreateEntrepriseDTO;
-import com.bpifrance.beneficiaire.entity.Entreprise;
-import com.bpifrance.beneficiaire.repository.EntrepriseRepository;
+import com.beneficiaire.dto.CreateEntrepriseDTO;
+import com.beneficiaire.entity.Entreprise;
+import com.beneficiaire.repository.EntrepriseRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
