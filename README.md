@@ -50,10 +50,10 @@ MVP pour Bpifrance → connaître les bénéficiaires effectifs selon la défini
 ---
 ## Commande de test
 
-git clone https://github.com/fekihtomy/repo-bpifrance-beneficiaire.git
-cd repo-bpifrance-beneficiaire
-mvn clean package -DskipTests
-java -jar target/repo-bpifrance-beneficiaire-0.0.1-SNAPSHOT.jar
+- git clone https://github.com/fekihtomy/repo-bpifrance-beneficiaire.git
+- cd repo-bpifrance-beneficiaire
+- mvn clean package -DskipTests
+- java -jar target/repo-bpifrance-beneficiaire-0.0.1-SNAPSHOT.jar
 
 ## Exemples
 
