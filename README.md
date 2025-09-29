@@ -195,6 +195,186 @@ Pas de contenu
   "error": "Impossible de supprimer : entreprise introuvable avec l'ID 999"
 }
 
+
+### 2. Personne Physique (POST `/api/personnes`)
+
+- Créer une personne physique
+
+curl -X POST http://localhost:8080/api/personnes \
+  -H "Content-Type: application/json" \
+  -d '{
+        "nom": "Durand",
+        "prenom": "Alice",
+        "dateNaissance": "1985-04-10",
+        "adresse": "25 rue Victor Hugo, Nantes"
+      }'
+      
+- Réponse (201 Created) :
+{
+  "id": 1,
+  "nom": "Durand",
+  "prenom": "Alice",
+  "dateNaissance": "1985-04-10",
+  "adresse": "25 rue Victor Hugo, Nantes"
+}
+
+- Requête invalide (champ manquant) :
+
+curl -X POST http://localhost:8080/api/personnes \
+  -H "Content-Type: application/json" \
+  -d '{
+        "nom": "",
+        "prenom": "Alice",
+        "dateNaissance": "1985-04-10",
+        "adresse": "25 rue Victor Hugo"
+      }'
+      
+- Réponse (400 Bad Request) :
+{
+  "nom": "Le nom de la personne est obligatoire"
+}
+
+- Récupérer toutes les personnes physiques (GET /api/personnes)
+
+curl http://localhost:8080/api/personnes
+
+- Réponse (200 OK) :
+[
+  {
+    "id": 1,
+    "nom": "Durand",
+    "prenom": "Alice",
+    "dateNaissance": "1985-04-10",
+    "adresse": "25 rue Victor Hugo, Nantes"
+  },
+  {
+    "id": 2,
+    "nom": "Martin",
+    "prenom": "Julien",
+    "dateNaissance": "1991-12-01",
+    "adresse": "10 boulevard Haussmann, Paris"
+  }
+]
+
+### 3. Bénéficiaire (POST `/api/beneficiaires`)
+
+💡 Un bénéficiaire peut être une personne physique ou une entreprise.
+
+- Ajouter un bénéficiaire personne physique
+
+curl -X POST http://localhost:8080/api/beneficiaires \
+  -H "Content-Type: application/json" \
+  -d '{
+        "entrepriseId": 1,
+        "personneId": 2,
+        "pourcentage": 33.3
+      }'
+      
+- Réponse (201 Created) :
+{
+  "id": 1,
+  "pourcentage": 33.3,
+  "entreprise": {
+    "id": 1,
+    "nom": "InnovCorp",
+    "siren": "123456789",
+    "adresse": "15 avenue des Lumières, Paris"
+  },
+  "personnePhysique": {
+    "id": 2,
+    "nom": "Martin",
+    "prenom": "Julien"
+  }
+}
+
+- Ajouter un bénéficiaire entreprise
+
+curl -X POST http://localhost:8080/api/beneficiaires \
+  -H "Content-Type: application/json" \
+  -d '{
+        "entrepriseId": 1,
+        "entrepriseBeneficiaireId": 2,
+        "pourcentage": 45.0
+      }'
+- Réponse (201 Created) :
+{
+  "id": 2,
+  "pourcentage": 45.0,
+  "entreprise": {
+    "id": 1,
+    "nom": "InnovCorp",
+    "siren": "123456789",
+    "adresse": "15 avenue des Lumières, Paris"
+  },
+  "entrepriseBeneficiaire": {
+    "id": 2,
+    "nom": "AlphaTech",
+    "siren": "987654321"
+  }
+}
+
+- Requête invalide (champ manquant)
+
+curl -X POST http://localhost:8080/api/beneficiaires \
+  -H "Content-Type: application/json" \
+  -d '{
+        "entrepriseId": 1,
+        "pourcentage": 33.3
+      }'
+
+- Réponse (400 Bad Request) :
+{
+  "error": "Un bénéficiaire doit être soit une personne physique, soit une entreprise."
+}
+
+- Requête invalide (pourcentage négatif)
+
+curl -X POST http://localhost:8080/api/beneficiaires \
+  -H "Content-Type: application/json" \
+  -d '{
+        "entrepriseId": 1,
+        "personneId": 2,
+        "pourcentage": -10
+      }'
+
+- Réponse (400 Bad Request) :
+{
+  "pourcentage": "Le pourcentage doit être positif"
+}
+
+- Récupérer tous les bénéficiaires (GET /api/beneficiaires)
+
+curl http://localhost:8080/api/beneficiaires
+
+- Réponse (200 OK) :
+[
+  {
+    "id": 1,
+    "pourcentage": 33.3,
+    "entreprise": {
+      "id": 1,
+      "nom": "InnovCorp"
+    },
+    "personnePhysique": {
+      "id": 2,
+      "nom": "Martin",
+      "prenom": "Julien"
+    }
+  },
+  {
+    "id": 2,
+    "pourcentage": 45.0,
+    "entreprise": {
+      "id": 1,
+      "nom": "InnovCorp"
+    },
+    "entrepriseBeneficiaire": {
+      "id": 2,
+      "nom": "AlphaTech"
+    }
+  }
+]
+
 ---
 
 ## Commande installation & lancement API
