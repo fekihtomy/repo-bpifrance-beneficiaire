@@ -25,28 +25,27 @@ Assure-toi que ta base est accessible sur `localhost:5432`
 
 ---
 
-## Piste d'amélioration (Ce que j'aurais aimé améliorer dans le code)
+## 🚧 Pistes d'amélioration
 
-- Ajout de tests JUnit type création ou récupération d'entreprise ou de personnes, l'ajout de bénéficiaires, etc...
-- Ajout de base de données SQL pour la persistance
-- Ajout de sécurité type authentification par exemple
-- Ajout d'un historique
+Voici quelques idées pour aller plus loin et enrichir le projet :
 
----
+- **Sécurisation de l’API**  
+  Intégrer une authentification et autorisation (ex: OAuth2, JWT) pour sécuriser les endpoints REST.
 
-## Mon retour ou ce que je nʼai pas réussi à faire
+- **Documentation API interactive**  
+  Générer une documentation Swagger/OpenAPI pour faciliter l’utilisation et les tests de l’API.
 
-- Manqué de temps pour des tests
-- 2H c'est court, pour de vrai, je suis déjà a environ 4H
-- Quelques difficultés avec les API REST, mon dernier developpement du type remonte à 2019 à la BNP pour un systeme d'automatisation de notices, developpement réalisé en Inde, j'étais plus ou moins le tech lead / MOE , rédaction spécification technique, participation aux reunions, review du code, tests puis livraison
+- **Pipeline CI/CD**  
+  Automatiser les builds, tests, et déploiements via GitHub Actions, Jenkins ou GitLab CI.
 
----
+- **Monitoring & alerting**  
+  Intégrer des outils de monitoring (ex: Prometheus, Grafana) et de logs centralisés (ex: ELK stack).
 
-## Stack technique
+- **Tests d’intégration**  
+  Compléter les tests unitaires par des tests d’intégration avec une base en mémoire (H2) et tests API.
 
-- Java 21
-- Spring Boot 3.x
-- Stockage des données **en mémoire** (non persistant) — les données seront perdues au redémarrage
+- **Interface utilisateur**  
+  Développer une interface front-end (React, Angular, Vue.js) pour une gestion visuelle des entreprises.
 
 ---
 
