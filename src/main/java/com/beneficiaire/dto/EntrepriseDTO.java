@@ -1,4 +1,4 @@
-package com.bpifrance.beneficiaire.dto;
+package com.beneficiaire.dto;
 
 import lombok.*;
 
