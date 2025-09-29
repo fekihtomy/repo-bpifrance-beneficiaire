@@ -17,11 +17,33 @@ Il s'agit d'une version améliorée post-MVP intégrant une base de données Pos
 
 ---
 
-## ⚙️ Configuration
+## 🔧 Technologies
 
-### 🎯 PostgreSQL
+- Java 21
+- Spring Boot 3.1.x
+- Spring Data JPA
+- PostgreSQL
+- Lombok
+- JUnit 5 & Mockito
+- Maven
+  
+---
 
-Assure-toi que ta base est accessible sur `localhost:5432`
+## 🛠️ Configuration Base de Données
+
+Assurez-vous d'avoir un serveur PostgreSQL disponible et créez une base de données nommée `bpifrance`.
+
+Fichier `application.properties` :
+
+properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/bpifrance
+spring.datasource.username=postgres
+spring.datasource.password=your_password
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+
+spring.sql.init.mode=always
+spring.sql.init.data-locations=classpath:data.sql
 
 ---
 
